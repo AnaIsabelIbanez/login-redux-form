@@ -14,7 +14,7 @@ import Modal from '../../components/Modal';
 import { getModalOptions, getUser } from './selectors';
 import injectReducer from '../../utils/injects/injectReducer';
 import reducer from './reducer/rootReducer';
-import { hideModal } from './actions';
+import { hideModal, signOut } from './actions';
 import ClientDetailPage from '../ClientDetailPage';
 import ClientEditPage from '../ClientEditPage';
 import { getLiteral } from '../../utils/utilities';
@@ -22,10 +22,10 @@ import { getLiteral } from '../../utils/utilities';
 // eslint-disable-next-line react/prefer-stateless-function
 export class App extends Component {
   render() {
-    const { modals, onHideModal, user } = this.props;
+    const { modals, onHideModal, user, onSignOut } = this.props;
     return (
       <div>
-        <Header title={getLiteral('header.title')} />
+        <Header title={getLiteral('header.title')} name={user ? user.name : ''} signOut={() => { console.log('sign out'); onSignOut(); }} />
         <div className="main-body">
           {modals.modals.map((modalOpt, index) => (<Modal key={index} hideModal={onHideModal} {...modalOpt} />))}
           <Switch>
@@ -49,6 +49,7 @@ App.propTypes = {
   user: PropTypes.any,
   modals: PropTypes.object,
   onHideModal: PropTypes.func,
+  onSignOut: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -59,6 +60,7 @@ const mapStateToProps = createStructuredSelector({
 export function mapDispatchToProps(dispatch) {
   return {
     onHideModal: () => dispatch(hideModal()),
+    onSignOut: () => dispatch(signOut()),
   };
 }
 

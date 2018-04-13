@@ -1,4 +1,4 @@
-import { SET_USER, HIDE_MODAL, SHOW_MODAL } from './constants';
+import { SET_USER, HIDE_MODAL, SHOW_MODAL, SIGN_OUT } from './constants';
 
 export const setUser = (user) => ({
   type: SET_USER,
@@ -19,4 +19,8 @@ export const showError = ({ parsedBody: { details = [] }, message }) => showModa
 
 export const hideModal = () => ({
   type: HIDE_MODAL,
+});
+
+export const signOut = () => ({
+  type: SIGN_OUT,
 });

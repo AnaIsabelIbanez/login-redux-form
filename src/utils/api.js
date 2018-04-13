@@ -83,9 +83,10 @@ export default class Api {
 
   // Request
   genericRequest(method, originalUrl, options) {
+    const jwtToken = sessionStorage.getItem('jwtToken');
     const url = options.completePath === true ? originalUrl : this.getUrl(originalUrl);
     const opt = { ...deepCopy(this.defaultOptions), ...options, method };
-    opt.headers = { ...this.defaultOptions.headers, ...options.headers };
+    opt.headers = { ...this.defaultOptions.headers, ...options.headers, authorization: jwtToken };
 
     if (options && options.body instanceof FormData) {
       delete opt.headers['Content-Type'];

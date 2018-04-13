@@ -69,6 +69,7 @@
     },
     "plugins": [
         "react",
-        "redux-saga"
+        "redux-saga",
+        "jsx-a11y"
     ]
 }

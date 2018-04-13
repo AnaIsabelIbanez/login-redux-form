@@ -1,8 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
+import { IntlProvider } from 'react-intl';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+import App from './containers/App';
+import './style/default.css';
+import configureStore from './configureStore';
+import { translationMessages } from './transaltions/messages';
+
+const history = createHistory();
+const store = configureStore({}, history);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <IntlProvider locale={'en'} key={'en'} messages={translationMessages.en}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </IntlProvider>
+  </Provider>, document.getElementById('root')
+);

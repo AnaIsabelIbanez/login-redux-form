@@ -3,14 +3,61 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "3.3.7",
+    "flat": "^4.0.0",
+    "font-awesome": "^4.7.0",
+    "material-ui": "^1.0.0-beta.38",
+    "prop-types": "^15.6.0",
     "react": "^16.3.1",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.3.1",
-    "react-scripts": "1.1.4"
+    "react-intl": "^2.4.0",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^4.0.8",
+    "react-scripts": "1.1.4",
+    "react-table": "^6.8.0",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
+    "reselect": "^3.0.1",
+    "styled-components": "^2.4.0"
+  },
+  "devDependencies": {
+    "babel-jest": "^22.4.3",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint-config-airbnb": "15.0.1",
+    "eslint-config-airbnb-base": "11.2.0",
+    "eslint-import-resolver-webpack": "0.8.3",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-jsx-a11y": "5.0.3",
+    "eslint-plugin-react": "7.0.1",
+    "eslint-plugin-redux-saga": "0.3.0",
+    "eslint-watch": "^2.1.14",
+    "jest": "20.0.4",
+    "react-google-maps": "^9.4.5",
+    "react-tooltip": "^3.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "esw src config --color"
+  },
+  "lint-staged": {
+    "*.js": "lint:eslint"
+  },
+  "pre-commit": "lint:staged",
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:4040",
+      "ws": true
+    },
+    "/v2": {
+      "target": "http://localhost:8000",
+      "ws": true
+    }
   }
 }

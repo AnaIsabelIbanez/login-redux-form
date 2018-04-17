@@ -2,8 +2,12 @@ import { CHANGE_FIELD, CLEAR_FIELDS } from './constants';
 
 const defaultState = {
   clientCreate: {
-    'address.geo.lat': '38.34',
-    'address.geo.lng': '-0.48',
+    address: {
+      geo: {
+        lat: '38.34',
+        lng: '-0.48',
+      },
+    },
   },
 };
 

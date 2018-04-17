@@ -18,6 +18,8 @@ import { hideModal, signOut } from './actions';
 import ClientDetailPage from '../ClientDetailPage';
 import ClientEditPage from '../ClientEditPage';
 import { getLiteral } from '../../utils/utilities';
+import injectSaga from '../../utils/injects/injectSaga';
+import saga from './appSaga';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class App extends Component {
@@ -25,7 +27,7 @@ export class App extends Component {
     const { modals, onHideModal, user, onSignOut } = this.props;
     return (
       <div>
-        <Header title={getLiteral('header.title')} name={user ? user.name : ''} signOut={() => { console.log('sign out'); onSignOut(); }} />
+        <Header title={getLiteral('header.title')} name={user ? user.name : ''} signOut={onSignOut} />
         <div className="main-body">
           {modals.modals.map((modalOpt, index) => (<Modal key={index} hideModal={onHideModal} {...modalOpt} />))}
           <Switch>
@@ -64,12 +66,15 @@ export function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'global', reducer });
+const withSaga = injectSaga({ key: 'appSaga', saga });
 
 export default withRouter(compose(
   withReducer,
+  withSaga,
   withConnect
 )(App));
 

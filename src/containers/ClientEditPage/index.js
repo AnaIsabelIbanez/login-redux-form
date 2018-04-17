@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -5,14 +6,14 @@ import { connect } from 'react-redux';
 import { Col, Grid, Row, Button } from 'react-bootstrap';
 import { createStructuredSelector } from 'reselect';
 
-import { getClientUpdate } from './selectors';
+import { getClientEditForm, getClientUpdate } from './selectors'
 import { getFetch } from '../App/selectors';
 import injectReducer from '../../utils/injects/injectReducer';
 import injectSaga from '../../utils/injects/injectSaga';
 import reducer from './reducer';
 import saga from './saga/rootSagas';
-import { getClient, changeField, updateClient } from './actions';
-import ClientForm from '../ClientForm';
+import { getClient, updateClient } from './actions';
+import ClientForm from './ClientEditForm';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { CLIENT_FETCH_KEY } from '../App/fetchConstants';
 import { getLiteral } from '../../utils/utilities';
@@ -29,8 +30,9 @@ export class ClientEditPage extends Component {
     const {
       fetch,
       client,
-      onChangeField,
       onUpdateClient,
+      initialValues,
+      editFormValues = {},
     } = this.props;
     return (
       <Grid>
@@ -48,10 +50,10 @@ export class ClientEditPage extends Component {
             <Row>
               <Col>
                 {client && <ClientForm
-                  fields={client}
-                  changeField={onChangeField}
+                  initialValues={{ ...initialValues }}
                   submitAction={onUpdateClient}
                   textButton={'client.save'}
+                  editFormValues={editFormValues.values}
                 />}
               </Col>
             </Row>
@@ -66,7 +68,6 @@ ClientEditPage.propTypes = {
   fetch: PropTypes.object,
   client: PropTypes.object,
   onGetClient: PropTypes.func,
-  onChangeField: PropTypes.func,
   onUpdateClient: PropTypes.func,
   match: PropTypes.object,
   history: PropTypes.object,
@@ -75,13 +76,14 @@ ClientEditPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   fetch: getFetch(),
   client: getClientUpdate(),
+  initialValues: getClientUpdate(),
+  editFormValues: getClientEditForm(),
 });
 
 
 export function mapDispatchToProps(dispatch) {
   return {
     onGetClient: (id) => dispatch(getClient(id)),
-    onChangeField: (value) => dispatch(changeField(value)),
     onUpdateClient: (client) => dispatch(updateClient(client)),
   };
 }

@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Button, Col, Grid, Row } from 'react-bootstrap';
 
-import { getClientCreate } from './selectors';
+import { getClientCreate, getClientCreateForm } from './selectors';
 import injectReducer from '../../utils/injects/injectReducer';
 import injectSaga from '../../utils/injects/injectSaga';
 import reducer from './reducer';
 import saga from './saga/rootSagas';
-import { changeField, createClient, clearFields } from './actions';
-import ClientForm from '../ClientForm';
+import { createClient, clearFields } from './actions';
+import ClientForm from './ClientCreateForm';
 import { getLiteral } from '../../utils/utilities';
 import Icon from '../../components/Icon';
 
@@ -24,9 +24,9 @@ export class ClientCreatePage extends Component {
 
   render() {
     const {
-      client,
-      onChangeField,
       onCreateClient,
+      client,
+      editFormValues = {},
     } = this.props;
     return (
       <Grid fluid>
@@ -42,10 +42,10 @@ export class ClientCreatePage extends Component {
           <Row>
             <Col>
               <ClientForm
-                fields={client}
-                changeField={onChangeField}
+                initialValues={{ ...client }}
                 submitAction={onCreateClient}
                 textButton={'client.save'}
+                editFormValues={editFormValues.values}
               />
             </Col>
           </Row>
@@ -56,8 +56,6 @@ export class ClientCreatePage extends Component {
 }
 
 ClientCreatePage.propTypes = {
-  client: PropTypes.object,
-  onChangeField: PropTypes.func,
   onCreateClient: PropTypes.func,
   onClearFields: PropTypes.func,
   history: PropTypes.object,
@@ -65,11 +63,11 @@ ClientCreatePage.propTypes = {
 
 export const mapStateToProps = createStructuredSelector({
   client: getClientCreate(),
+  editFormValues: getClientCreateForm(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onChangeField: (value) => dispatch(changeField(value)),
     onCreateClient: (client) => dispatch(createClient(client)),
     onClearFields: () => dispatch(clearFields()),
   };

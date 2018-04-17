@@ -11,6 +11,6 @@ export default function* getClientData({ payload }) {
   if (response.isBackendError === true) {
     yield put(clearFields());
   } else {
-    yield put(setClient(flatten(response)));
+    yield put(setClient((response)));
   }
 }

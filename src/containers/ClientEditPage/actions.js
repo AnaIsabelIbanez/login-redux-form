@@ -10,10 +10,10 @@ export const getClient = (id) => ({
   payload: id,
 });
 
-export const changeField = (field) => ({
-  type: CHANGE_FIELD,
-  payload: field,
-});
+// export const changeField = (field) => ({
+//   type: CHANGE_FIELD,
+//   payload: field,
+// });
 
 export const clearFields = () => ({
   type: CLEAR_FIELDS,

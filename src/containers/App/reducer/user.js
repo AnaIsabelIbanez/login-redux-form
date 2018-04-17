@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import {
-  SET_USER,
+  SET_USER, SIGN_OUT,
 } from '../constants';
 
 const getJwtToken = () => {
@@ -18,6 +18,11 @@ function userReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         user: jwtDecode(payload),
+      };
+    case SIGN_OUT:
+      return {
+        ...state,
+        user: null,
       };
     default:
       return state;

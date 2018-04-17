@@ -18,7 +18,7 @@ const Header = ({ title, name, signOut }) => {
     <StyledHeader>
       {title}
       <div className="pull-right">
-        {name} {name && <Button onClick={signOut}>Sign out</Button>}
+        {name} {name && <Button onClick={() => signOut()}>Sign out</Button>}
       </div>
     </StyledHeader>
   );

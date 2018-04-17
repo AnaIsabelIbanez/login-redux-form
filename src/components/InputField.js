@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, ControlLabel, FormControl } from 'react-bootstrap';
+import { Col, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
 import styled from 'styled-components';
+import FieldWithTooltip from './FieldWithTooltip';
 
 
-const MyInputField = ({ className, width, inputWidth, label, value, onChange, error, errorMessage, ...props }) => (
-  <div className={className}>
-    <Col componentClass={ControlLabel} md={width} className="input-label">{label}</Col>
+export const InputField = ({ className = '', width, inputWidth, label, value, onChange, error, errorMessage, validationState, ...props }) => (<FormGroup validationState={validationState}>
+  <div className={className} >
+    {label && <Col componentClass={ControlLabel} md={width} className="input-label">{label}</Col>}
     <Col md={inputWidth || width}>
       <FormControl
         className="input-field"
@@ -17,11 +18,24 @@ const MyInputField = ({ className, width, inputWidth, label, value, onChange, er
         {...props}
       />
     </Col>
-    {error && <div>{errorMessage}</div>}
   </div>
-);
+</FormGroup>);
 
-MyInputField.propTypes = {
+export const InputWithError = ({ ...props }) => (<FieldWithTooltip
+  id={props.name}
+  message={props.errorMessage}
+>
+  <InputField
+    {...props}
+  />
+</FieldWithTooltip>);
+
+export const InputValidation = ({ ...props }) => props.errorMessage && props.validationState === 'error'
+  ? <InputWithError {...props} />
+  : <InputField {...props} />;
+
+
+InputField.propTypes = {
   className: PropTypes.string,
   width: PropTypes.number,
   inputWidth: PropTypes.number,
@@ -33,9 +47,10 @@ MyInputField.propTypes = {
   onChange: PropTypes.func,
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
+  validationState: PropTypes.string,
 };
 
-export const GenericInput = styled(MyInputField)`
+export const GenericInput = styled(InputValidation)`
     .input-label {
         text-align: right;
     }
@@ -43,6 +58,10 @@ export const GenericInput = styled(MyInputField)`
         text-align: left;
         width: 100%;
     }
+`;
+
+export const Input = styled(InputValidation)`
+    padding: 20px 0;
 `;
 
 export const InputForm = GenericInput.extend`

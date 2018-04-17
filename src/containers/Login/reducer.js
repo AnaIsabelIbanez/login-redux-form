@@ -1,6 +1,7 @@
 import {
   CHANGE_USERNAME,
   CHANGE_PASSWORD,
+  DO_LOGIN,
 } from './constants';
 
 const initialState = {
